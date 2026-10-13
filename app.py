@@ -3,6 +3,7 @@ import streamlit as st
 from main import generate_description          
 from generator.llm_client import LLMError
 from generator.validators import VALID_PROPERTY_TYPES
+from generator.output_checks import check_description_length
 
 st.title("PropDesc AI")
 st.caption("All generated descriptions are initial drafts and must be thoroughly reviewed and edited by the agent before use.")
@@ -71,4 +72,7 @@ if submitted:
         st.error(f"An error occurred with the generation service: {e}")
     else:
         st.success("Description generated successfully!")
+        warning = check_description_length(description)
+        if warning:                      # an empty/None result is falsy, so this skips quietly
+            st.warning(warning)
         st.text_area("Generated description (editable)", value=description, height=220)
