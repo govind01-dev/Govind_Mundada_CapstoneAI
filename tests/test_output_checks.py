@@ -35,3 +35,18 @@ def test_message_mentions_the_word_count():
     
     assert message is not None
     assert str(offending_count) in message
+
+def test_exactly_min_words_is_fine():
+    """A text with exactly MIN_WORDS words should not trigger a warning."""
+    assert check_description_length("word " * MIN_WORDS) is None
+
+def test_short_message_mentions_the_word_count():
+    """The 'too short' warning should state the actual count."""
+    short_count = MIN_WORDS - 1
+    message = check_description_length("word " * short_count)
+    assert message is not None
+    assert str(short_count) in message
+
+def test_empty_text_returns_message():
+    """Empty text has zero words, so it should be flagged as too short."""
+    assert check_description_length("") is not None    
