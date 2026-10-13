@@ -11,7 +11,7 @@ def generate_text(prompt: str, model: str = DEFAULT_MODEL, temperature: float = 
         response = ollama.chat(
             model=model,
             messages=[{"role": "user", "content": prompt}],
-            # Configured temperature to standard deterministic range
+            # Lower temperature = steadier output that sticks closer to the given facts
             options={"temperature": temperature},
         )
     except ConnectionError as e:
@@ -27,7 +27,7 @@ def generate_text(prompt: str, model: str = DEFAULT_MODEL, temperature: float = 
     text = response["message"]["content"]
     
     # Catch empty or whitespace-only strings before stripping
-    if not text or text.isspace():
+    if not text.strip():
         raise LLMError("The model returned an empty response.")
         
     return text.strip()
