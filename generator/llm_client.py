@@ -1,11 +1,12 @@
 import ollama
 
 DEFAULT_MODEL = "llama3.2"  # one place to change the model later
+DEFAULT_TEMPERATURE = 0.4
 
 class LLMError(Exception):
     """Raised when the local model can't produce a usable response."""
 
-def generate_text(prompt: str, model: str = DEFAULT_MODEL, temperature: float = 0.4) -> str:
+def generate_text(prompt: str, model: str = DEFAULT_MODEL, temperature: float = DEFAULT_TEMPERATURE) -> str:
     """Send a prompt to the local Ollama model and return the response text."""
     try:
         response = ollama.chat(

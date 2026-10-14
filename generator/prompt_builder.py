@@ -14,16 +14,25 @@ def format_bathrooms(data: dict) -> str:
         return "not specified"
     return ", ".join(parts)
 
-
 def format_features(features: list) -> str:
-    """Turn a list of features into one readable string."""
-    if not features:  # an empty list is falsy
-        return "None provided"
+    """Join a list of features into one string. (No fallback text: callers skip empty lists.)"""
     return ", ".join(features)
 
+def build_optional_lines(data: dict) -> str:
+    """Return prompt lines for fields that are only included when they have content."""
+    lines = []
+    if data["square_feet_below_grade"] > 0:
+        lines.append(f"Below-grade square feet: {data['square_feet_below_grade']}")
+    if data["features"]:                      # an empty list is falsy
+        lines.append(f"Key features: {format_features(data['features'])}")
+    notes = data["notes"].strip()
+    if notes:                                 # empty or whitespace-only text is skipped
+        lines.append(f"Agent notes: {notes}")
+    return "\n".join(lines) + "\n" if lines else ""
 
 PROMPT_TEMPLATE = """You are an experienced real estate copywriter.
-Write ONE paragraph of roughly 80 to 150 words describing the property below.
+Write ONE paragraph of at most 120 words. If few facts are provided, write
+fewer sentences. A short description is fine. Do not add details to fill space.
 Use ONLY the facts provided. Do not invent features, amenities, prices,
 views, or neighborhood details that are not listed. Do not make claims
 about schools, crime, or who would be a good fit for the home.
@@ -33,15 +42,11 @@ Location: {city}, {state}
 Bedrooms: {bedrooms}
 Bathrooms: {bathrooms}
 Above-grade square feet: {square_feet_above_grade}
-Below-grade square feet: {square_feet_below_grade}
 Lot size: {lot_size_acres} acres
 Year built: {year_built}
-Key features: {features}
-Agent notes: {notes}
-
+{optional_lines}
 Write the description now:
 """
-
 
 def build_prompt(data: dict) -> str:
     """Fill PROMPT_TEMPLATE using validated property data."""
@@ -53,9 +58,7 @@ def build_prompt(data: dict) -> str:
         bedrooms=data["bedrooms"],
         bathrooms=format_bathrooms(data),
         square_feet_above_grade=data["square_feet_above_grade"],
-        square_feet_below_grade=data["square_feet_below_grade"],
         lot_size_acres=data["lot_size_acres"],
         year_built=data["year_built"],
-        features=format_features(data["features"]),
-        notes=notes,
+        optional_lines=build_optional_lines(data)
     )
