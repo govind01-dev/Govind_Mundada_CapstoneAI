@@ -1,6 +1,6 @@
 import datetime
 
-VALID_PROPERTY_TYPES = {"single-family", "condo", "townhouse", "land"}
+VALID_PROPERTY_TYPES = {"single-family", "condo", "townhouse"}
 MAX_NOTES_LENGTH = 1000
 MAX_FEATURES = 15
 MAX_FEATURE_LENGTH = 100

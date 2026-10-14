@@ -94,4 +94,11 @@ def test_features_at_count_limit_passes():
 def test_features_over_count_limit_raises():
     too_many = ["deck"] * (MAX_FEATURES + 1)
     with pytest.raises(ValueError):
-        validate_property_input(make_valid_input(features=too_many))        
+        validate_property_input(make_valid_input(features=too_many))  
+
+def test_land_is_not_supported_in_mvp():
+    """Land listings are out of scope: they have no bedrooms, square footage, or build year."""
+    with pytest.raises(ValueError):
+        validate_property_input(make_valid_input(property_type="land"))
+        
+              
