@@ -108,8 +108,8 @@ Exact versions are in `pyproject.toml` and `uv.lock`.
    ```
 4. **Clone the repository and install dependencies:**
    ```bash
-   git clone TODO-your-repo-url
-   cd TODO-your-repo-folder
+   git clone https://github.com/govind01-dev/Govind_Mundada_CapstoneAI.git
+   cd Govind_Mundada_CapstoneAI
    uv sync
    ```
 5. **Run the app:**
@@ -137,7 +137,6 @@ This writes a results file under `evaluation/`. Change `OUTPUT_FILE` in `evaluat
 | "The model 'llama3.2' was not found" | Model not downloaded | Run `ollama pull llama3.2` |
 | First generation is slow | Ollama loads the model into memory on the first call, and again after it has been idle | Wait; later calls are faster |
 
-> **TODO (needs you):** follow these steps exactly on a fresh clone and fix anything that fails.
 
 ---
 
