@@ -9,7 +9,8 @@ from generator.llm_client import LLMError
 from generator.validators import VALID_PROPERTY_TYPES
 from generator.output_checks import check_description_length
 
-st.title("PropDesc AI")
+st.set_page_config(page_title="Realistify")
+st.title("Realistify: AI Real Estate Description Generator")
 st.caption("All generated descriptions are initial drafts and must be thoroughly reviewed and edited by the agent before use.")
 
 with st.form("property_form"):
