@@ -26,7 +26,9 @@ BANNED_PHRASES = [
     "luxurious", 
     "safe neighborhood", 
     "family-friendly", 
-    "walking distance to schools"
+    "schools",          
+    "school district",
+    "neighborhood safety"
 ]
 
 def missing_required_terms(text: str, terms: list[str]) -> list[str]:

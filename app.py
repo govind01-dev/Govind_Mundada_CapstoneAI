@@ -76,7 +76,7 @@ if submitted:
         st.error(f"An error occurred with the generation service: {e}")
     except Exception:
         logger.exception("Unexpected error while generating a description")
-        st.error("TODO: a friendly generic message. Say it's not the user's fault, and what to do next.")
+        st.error("Something went wrong on our end. Please try again later.")
     else:
         st.success("Description generated successfully!")
         warning = check_description_length(description)

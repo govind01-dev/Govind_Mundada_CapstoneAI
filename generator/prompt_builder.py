@@ -30,12 +30,19 @@ def build_optional_lines(data: dict) -> str:
         lines.append(f"Agent notes: {notes}")
     return "\n".join(lines) + "\n" if lines else ""
 
+FAIR_HOUSING_INSTRUCTIONS = """
+CRITICAL COMPLIANCE RULES:
+1. Do NOT mention schools, school districts, or school proximity (e.g., do NOT write "excellent schools nearby" or "near top schools").
+2. Do NOT comment on neighborhood safety, crime rates, or family demographics (e.g., do NOT write "safe neighborhood" or "perfect for families").
+3. Stick strictly to the physical structure of the property, its intrinsic features, and documented dimensions.
+"""
+
 PROMPT_TEMPLATE = """You are an experienced real estate copywriter.
 Write ONE paragraph of at most 120 words. If few facts are provided, write
 fewer sentences. A short description is fine. Do not add details to fill space.
 Use ONLY the facts provided. Do not invent features, amenities, prices,
-views, or neighborhood details that are not listed. Do not make claims
-about schools, crime, or who would be a good fit for the home.
+views, or neighborhood details that are not listed. 
+{fair_housing_rules}
 
 Property type: {property_type}
 Location: {city}, {state}
@@ -52,6 +59,7 @@ def build_prompt(data: dict) -> str:
     """Fill PROMPT_TEMPLATE using validated property data."""
     notes = data["notes"].strip() or "None provided"
     return PROMPT_TEMPLATE.format(
+        fair_housing_rules=FAIR_HOUSING_INSTRUCTIONS,
         property_type=data["property_type"],
         city=data["city"],
         state=data["state"],
